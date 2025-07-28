@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Trader - BNB Chain</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>📈 Dashboard Trader</h1>
+
+    <div class="card">
+      <h2>💰 Banca Atual</h2>
+      <p id="banca"></p>
+    </div>
+
+    <div class="card">
+      <h2>Preços</h2>
+      <ul>
+        <li><strong>WBNB:</strong> <span id="price-wbnb">-</span> USDT</li>
+        <li><strong>TWT:</strong> <span id="price-twt">-</span> USDT</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>📊 Gráfico de Lucro</h2>
+      <canvas id="lucroChart"></canvas>
+    </div>
+
+    <div class="card">
+      <h2>📅 Histórico de Transações</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Token</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody id="historico"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
