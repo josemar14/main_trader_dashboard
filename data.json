@@ -1,1 +1,9 @@
+{
+  "banca": 0.00,
+  "pares": {
+    "WBNB": { "price": 0 },
+    "TWT": { "price": 0 }
+  },
+  "transacoes": []
+}
 
