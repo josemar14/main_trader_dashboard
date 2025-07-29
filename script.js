@@ -1,54 +1,49 @@
 async function carregarDados() {
-  const response = await fetch('data.json');
-  const data = await response.json();
+  const res = await fetch("data.json?" + new Date().getTime());
+  const dados = await res.json();
 
-  // Atualiza preços
-  document.getElementById('price-wbnb').innerText = data.precos?.WBNB || '-';
-  document.getElementById('price-twt').innerText = data.precos?.TWT || '-';
+  document.getElementById("banca").textContent = `$ ${dados.banca.toFixed(2)}`;
+  document.getElementById("price-wbnb").textContent = dados.pares.WBNB.price.toFixed(4);
+  document.getElementById("price-twt").textContent = dados.pares.TWT.price.toFixed(4);
 
-  // Atualiza banca
-  document.getElementById('banca').innerText = `${data.banca?.toFixed(2)} USDT`;
-
-  // Atualiza histórico
-  const historico = document.getElementById('historico');
-  historico.innerHTML = '';
-  data.transacoes.slice().reverse().forEach(tx => {
-    historico.innerHTML += `
-      <tr>
-        <td>${tx.data}</td>
-        <td>${tx.token}</td>
-        <td>${tx.tipo}</td>
-        <td>${tx.valor}</td>
-      </tr>
+  const historico = dados.transacoes.slice().reverse();
+  const tabela = document.getElementById("historico");
+  tabela.innerHTML = "";
+  historico.forEach(tx => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${tx.data}</td>
+      <td>${tx.token}</td>
+      <td>${tx.tipo}</td>
+      <td>$${tx.valor.toFixed(2)}</td>
     `;
+    tabela.appendChild(tr);
   });
 
-  // Atualiza gráfico
-  const lucroCtx = document.getElementById('lucroChart').getContext('2d');
-  const labels = data.grafico.map(x => x.data);
-  const valores = data.grafico.map(x => x.lucro);
-
-  new Chart(lucroCtx, {
+  const ctx = document.getElementById("lucroChart").getContext("2d");
+  const labels = historico.map(tx => tx.data);
+  const valores = historico.map(tx => tx.valor);
+  new Chart(ctx, {
     type: 'line',
     data: {
       labels,
       datasets: [{
-        label: 'Lucro USDT',
+        label: 'Lucro ($)',
         data: valores,
-        borderColor: '#00ffcc',
-        fill: false
+        borderColor: '#4caf50',
+        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+        fill: true,
+        tension: 0.4
       }]
     },
     options: {
       scales: {
-        y: {
-          beginAtZero: true
-        }
+        y: { beginAtZero: true }
       }
     }
   });
 }
 
 carregarDados();
-setInterval(carregarDados, 15000); // Atualiza a cada 15 segundos
-    
+setInterval(carregarDados, 30000); // Atualiza a cada 30s
+                    
